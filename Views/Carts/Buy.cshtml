@@ -1,0 +1,84 @@
+﻿@model MusicWebsite.Models.Item
+
+@{
+    ViewBag.Title = "Buy";
+}
+
+<h2>Buy</h2>
+
+<div>
+    <h4>Item</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.category.Genre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.category.Genre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileSize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FilePath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FilePath)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CoverPic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CoverPic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Quantity Available")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Qty)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <@*label for="quantity">Quantity to be Ordered.</label>
+    <input type="number" id="quantity" name="quantity" min="1">*@
+</p>
+@Html.ActionLink("Add To Cart", "AddItemToCart", new { ItemId = Model.Id, qty=1})
+

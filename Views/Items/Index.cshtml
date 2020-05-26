@@ -1,0 +1,93 @@
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<MusicWebsite.Models.Item>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.category.Genre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.AddedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FileSize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FilePath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CoverPic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Qty)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.category.Genre)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Title)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.AddedOn)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.FileSize)
+    </td>
+    <td>
+
+
+        <audio controls controlsList="nodownload">
+            <source src=@item.FilePath type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+    </td>
+    <td>
+        <img src="@item.CoverPic" />
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Price)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Qty)
+    </td>
+    @if (User.IsInRole("Admin"))
+    {
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
+    }
+    <td>
+        @Html.ActionLink("Buy", "Buy","Carts", new { ItemId = item.Id },null) 
+       
+    </td>
+
+</tr>
+    }
+
+</table>

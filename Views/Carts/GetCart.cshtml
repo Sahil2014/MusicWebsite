@@ -1,0 +1,45 @@
+﻿@model MusicWebsite.Models.Cart
+
+<h1>Items in Cart=@Model.ItemsInCart</h1>
+
+
+@*@foreach (var item in Model.Items)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.category.Genre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.AddedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileSize)
+        </td>
+        <td>
+
+
+            <audio controls controlsList="nodownload">
+                <source src=@item.FilePath type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+
+        </td>
+        <td>
+            <img src="@item.CoverPic" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+     
+        <td>
+            @Html.ActionLink("Remove This Item", "RemoveItemFromCart", "Carts", new { ItemId = item.Id }, null)
+
+        </td>
+
+    </tr>
+}*@
+

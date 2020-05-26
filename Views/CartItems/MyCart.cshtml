@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MusicWebsite.Models.CartItem>
+
+@{
+    ViewBag.Title = "MyCart";
+}
+
+<h2>MyCart</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Item.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CartId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QtyToOrder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CartId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QtyToOrder)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
