@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using MusicWebsite.Helpers;
 using MusicWebsite.Models;
 
 namespace MusicWebsite.Controllers
@@ -13,12 +15,18 @@ namespace MusicWebsite.Controllers
     public class CartItemsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private CartHelper carthelper = new CartHelper();
 
         // GET: CartItems
-        public ActionResult MyCart(string cartId)
+        public ActionResult MyCart()
         {
-            var myCartItems = db.CartItem.Where(u => u.CartId == cartId);
-            return View(myCartItems.ToList());
+            //var userId = User.Identity.GetUserId();
+            //var currentUser = db.Users.Find(userId);
+            //var argument = currentUser.Email;
+            var cart = carthelper.GetCart();
+            var cartId = cart.CartNumber;
+            var myCartItems = db.CartItem.Where(u => u.CartId == cartId).ToList();
+            return View(myCartItems);
 
         }
 

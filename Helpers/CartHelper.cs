@@ -10,54 +10,68 @@ namespace MusicWebsite.Helpers
     public class CartHelper
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+       
         public Cart GetCart()
         {
             var cart = new Cart();
-            if (!string.IsNullOrWhiteSpace(HttpContext.Current.User.Identity.GetUserId()))
-            {
-                var currentUserId = HttpContext.Current.User.Identity.GetUserId();
-               var User = db.Users.Find(currentUserId);
-                cart= db.Carts.FirstOrDefault(c => c.CartNumber == User.Email);
-            }
-            else
-            {
-                Guid tempBasketID = Guid.NewGuid();
-               
-                cart.CartNumber = tempBasketID.ToString();
-                cart.ItemsInCart = 0;
-                cart.Total = 0;
-            }
+            cart.CartNumber = GetCartNumber();
             return cart;
-            
         }
-
-        public Cart GetCart(string cartnumber="")
+       
+        public string GetCartNumber()
         {
-            var cart = new Cart();
-            if (!string.IsNullOrWhiteSpace(cartnumber))
+
+            if (HttpContext.Current.Session[Cart.CartSessionKey] == null)
             {
-               cart = db.Carts.FirstOrDefault(c => c.CartNumber == cartnumber);
-             }
-            else
-            {
-                if (!string.IsNullOrWhiteSpace(HttpContext.Current.User.Identity.GetUserId()))
+                var userId = HttpContext.Current.User.Identity.GetUserId();
+                var currentUser = db.Users.Find(userId);
+
+                if (currentUser==null)
                 {
-                    var currentUserId = HttpContext.Current.User.Identity.GetUserId();
-                    var User = db.Users.Find(currentUserId);
-                    cart = db.Carts.FirstOrDefault(c => c.CartNumber == User.Email);
+                    Guid tempCartNumber = Guid.NewGuid();
+                    HttpContext.Current.Session[Cart.CartSessionKey] = tempCartNumber.ToString();
+                   
+                   
                 }
                 else
                 {
-                    Guid tempBasketID = Guid.NewGuid();
-                    cart.CartNumber = tempBasketID.ToString();
-                    cart.ItemsInCart = 0;
-                    cart.Total = 0;
+                    HttpContext.Current.Session[Cart.CartSessionKey] = currentUser.Email;
+
                 }
+            }
+            return HttpContext.Current.Session[Cart.CartSessionKey].ToString();
+        }
+
+    
+
+        //public Cart GetCart(string cartnumber)
+        //{
+        //    var cart = new Cart();
+        //    if (!string.IsNullOrWhiteSpace(cartnumber))
+        //    {
+        //       cart = db.Carts.FirstOrDefault(c => c.CartNumber == cartnumber);
+        //     }
+        //    else
+        //    {
+        //        if (!string.IsNullOrWhiteSpace(HttpContext.Current.User.Identity.GetUserId()))
+        //        {
+        //            var currentUserId = HttpContext.Current.User.Identity.GetUserId();
+        //            var User = db.Users.Find(currentUserId);
+        //            cart = db.Carts.FirstOrDefault(c => c.CartNumber == User.Email);
+        //        }
+        //        else
+        //        {
+        //            Guid tempBasketID = Guid.NewGuid();
+        //            cart.CartNumber = tempBasketID.ToString();
+                  
+        //            db.Carts.Add(cart);
+        //            db.SaveChanges();
+        //        }
                
 
-            }
-                return cart;
-        }
+        //    }
+        //        return cart;
+        //}
 
         public void AddItem(int itemId, int qty, string cartnumber)
         {
@@ -74,13 +88,13 @@ b.itemId == itemId);
                 cartitemm.CartId = cartnumber;
                 db.CartItem.Add(cartitemm);
                 cart.Total = cart.Total + item.Price;
-                item.Qty--;
+                
             }
             else
             {
                 cartitem.QtyToOrder = cartitem.QtyToOrder + qty;
                 cart.Total = cart.Total + item.Price;
-                item.Qty--;
+                
             }
             db.SaveChanges();
 

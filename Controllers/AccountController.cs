@@ -178,7 +178,7 @@ namespace MusicWebsite.Controllers
 
 
 
-                    db.SaveChanges();
+                   
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

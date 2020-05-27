@@ -6,9 +6,10 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MusicWebsite.Helpers;
 using MusicWebsite.Models;
+using MusicWebsite.ViewModels;
 
 namespace MusicWebsite.Controllers
-{[Authorize]
+{
     public class CartsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -16,15 +17,28 @@ namespace MusicWebsite.Controllers
         public ActionResult Buy(int ItemId)
         {
             var item = db.Items.FirstOrDefault(u => u.Id == ItemId);
+                       
             return View(item);
+        }
 
+        public ActionResult AddQty(int ItemId)
+        {
+            var buyitem = new BuyItem();
+            buyitem.Id = ItemId;
+            return View(buyitem);
+        }
+        [HttpPost]
+        public ActionResult AddQty(BuyItem buyitem)
+        {
+           
+            return RedirectToAction("AddItemToCart",new { ItemId=buyitem.Id,qty=buyitem.QtyToOrder});
         }
         // GET: Carts
         public ActionResult AddItemToCart(int ItemId, int qty)
         {
-            var userId = User.Identity.GetUserId();
-            var currentUser = db.Users.Find(userId);
-            var cartId = currentUser.Email;
+            
+            var cart = carthelper.GetCart();
+            var cartId = cart.CartNumber;
         
                 var item = db.Items.FirstOrDefault(u => u.Id == ItemId);
             if (item.Qty >= qty)
@@ -32,7 +46,7 @@ namespace MusicWebsite.Controllers
                 carthelper.AddItem(ItemId, qty, cartId);
 
 
-                return RedirectToAction("MyCart", "CartItems", new { cartId = cartId });
+                return RedirectToAction("MyCart", "CartItems");
             }
             else
             {

@@ -196,6 +196,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Uploads\Class1.cs" />
+    <Compile Include="ViewModels\BuyItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -282,11 +283,11 @@
     <Content Include="Views\CartItems\Edit.cshtml" />
     <Content Include="Views\CartItems\Index.cshtml" />
     <Content Include="Views\CartItems\MyCart.cshtml" />
+    <Content Include="Views\Carts\AddQty.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Audio\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
