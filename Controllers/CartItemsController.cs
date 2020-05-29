@@ -23,9 +23,17 @@ namespace MusicWebsite.Controllers
             //var userId = User.Identity.GetUserId();
             //var currentUser = db.Users.Find(userId);
             //var argument = currentUser.Email;
-            var cart = carthelper.GetCart();
-            var cartId = cart.CartNumber;
-            var myCartItems = db.CartItem.Where(u => u.CartId == cartId).ToList();
+            //var cart = carthelper.GetCart();
+            var cartnumber = carthelper.GetCartNumber();
+            
+            var myCartItems = db.CartItem.Where(u => u.CartId == cartnumber).ToList();
+            //var cart = db.Carts.FirstOrDefault(v => v.CartNumber == cartnumber);
+            decimal CartTotal = 0;
+            foreach(var cartitem in myCartItems)
+            {
+                CartTotal=CartTotal+cartitem.CartItemAmount;
+            }
+            ViewBag.Total = CartTotal;
             return View(myCartItems);
 
         }

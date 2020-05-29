@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -23,8 +24,10 @@ namespace MusicWebsite.Controllers
 
         public ActionResult AddQty(int ItemId)
         {
+            var item = db.Items.FirstOrDefault(u => u.Id == ItemId);
             var buyitem = new BuyItem();
             buyitem.Id = ItemId;
+            buyitem.ItemPrice = item.Price;
             return View(buyitem);
         }
         [HttpPost]
@@ -55,7 +58,55 @@ namespace MusicWebsite.Controllers
 
             
         }
-        
+
+        public ActionResult RemoveItemFromCart(int ItemId)
+        {
+
+            var cart = carthelper.GetCart();
+
+            var cartitem = db.CartItem.FirstOrDefault(b => b.CartId == cart.CartNumber && b.itemId == ItemId);
+            
+            if (cartitem != null)
+            {
+                
+                db.CartItem.Remove(cartitem);
+                db.SaveChanges();
+               
+            
+            
+            //if (cart.ItemsInCart <= 0)
+            //    {db.Carts.Remove(cart);
+            //    db.SaveChanges(); }
+                
+            }
+            else
+            {
+                return RedirectToAction("Oops", "Carts");
+            }
+            return RedirectToAction("MyCart", "CartItems");
+           
+
+        }
+
+        public ActionResult EmptyCart()
+        {
+
+            carthelper.EmptyCart();
+
+            
+            return RedirectToAction("Index", "Home");
+
+
+        }
+
+        public ActionResult Oops()
+        {
+
+            return View();
+
+
+        }
+
 
 
 

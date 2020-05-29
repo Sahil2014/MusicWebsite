@@ -14,6 +14,7 @@ namespace MusicWebsite.Models
         [Range(0, 50, ErrorMessage = "Please enter a quantity between 0 and 50")]
         public int QtyToOrder { get; set; }
         public DateTime DateCreated { get; set; }
+        public decimal CartItemAmount { get; set; }
         public virtual Item Item { get; set; }
     }
 }

@@ -13,8 +13,11 @@ namespace MusicWebsite.Helpers
        
         public Cart GetCart()
         {
+
+            //var CartNumber = GetCartNumber();
+            //var cart = db.Carts.FirstOrDefault(g => g.CartNumber == CartNumber);
             var cart = new Cart();
-            cart.CartNumber = GetCartNumber();
+            cart.CartNumber= GetCartNumber();
             return cart;
         }
        
@@ -30,8 +33,12 @@ namespace MusicWebsite.Helpers
                 {
                     Guid tempCartNumber = Guid.NewGuid();
                     HttpContext.Current.Session[Cart.CartSessionKey] = tempCartNumber.ToString();
-                   
-                   
+                    //var cart = new Cart();
+                    //cart.CartNumber= tempCartNumber.ToString();
+                    //db.Carts.Add(cart);
+                    //db.SaveChanges();
+
+
                 }
                 else
                 {
@@ -75,7 +82,8 @@ namespace MusicWebsite.Helpers
 
         public void AddItem(int itemId, int qty, string cartnumber)
         {
-            var cart = db.Carts.FirstOrDefault(g => g.CartNumber == cartnumber);
+            //var cart = db.Carts.FirstOrDefault(g => g.CartNumber == cartnumber);
+            var cart = GetCart();
             var item = db.Items.FirstOrDefault(g => g.Id == itemId);
             var cartitem = db.CartItem.FirstOrDefault(b => b.CartId == cartnumber &&
 b.itemId == itemId);
@@ -86,33 +94,39 @@ b.itemId == itemId);
                 cartitemm.QtyToOrder = qty;
                 cartitemm.DateCreated = DateTime.Now;
                 cartitemm.CartId = cartnumber;
+                cartitemm.CartItemAmount = cartitemm.CartItemAmount + item.Price * qty;
                 db.CartItem.Add(cartitemm);
-                cart.Total = cart.Total + item.Price;
-                
+               
+                db.SaveChanges();
+
             }
             else
             {
-                cartitem.QtyToOrder = cartitem.QtyToOrder + qty;
-                cart.Total = cart.Total + item.Price;
                 
+                cartitem.QtyToOrder = cartitem.QtyToOrder + qty;
+                cartitem.CartItemAmount= cartitem.CartItemAmount+ item.Price * qty;
+
+
+
             }
+           
             db.SaveChanges();
 
         }
 
-        public void RemoveItem(int itemId, string cartnumber)
+       
+        public void EmptyCart()
         {
+            var cart = GetCart();
 
-            var cartitem = db.CartItem.FirstOrDefault(b => b.CartId == cartnumber &&
-b.itemId == itemId);
-            if (cartitem != null)
+            var cartitems = db.CartItem.Where(b => b.CartId == cart.CartNumber).ToList() ;
+            foreach(var cartitem in cartitems)
             {
-                
+
                 db.CartItem.Remove(cartitem);
                 db.SaveChanges();
             }
             
-           
 
         }
 
