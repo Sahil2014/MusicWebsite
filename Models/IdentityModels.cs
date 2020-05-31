@@ -40,6 +40,7 @@ namespace MusicWebsite.Models
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItem { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         public System.Data.Entity.DbSet<MusicWebsite.ViewModels.BuyItem> BuyItems { get; set; }
     }

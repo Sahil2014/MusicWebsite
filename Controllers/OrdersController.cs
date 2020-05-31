@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MusicWebsite.Helpers;
 using MusicWebsite.Models;
 
 namespace MusicWebsite.Controllers
@@ -13,6 +14,7 @@ namespace MusicWebsite.Controllers
     public class OrdersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private CartHelper carthelper = new CartHelper();
 
         // GET: Orders
         public ActionResult Index()
@@ -56,6 +58,65 @@ namespace MusicWebsite.Controllers
             }
 
             return View(order);
+        }
+
+        public ActionResult Confirm(int id)
+        {
+            var order = db.Orders.Find(id);
+            return View(order);
+        }
+        public ActionResult CheckOut()
+        {
+            
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CheckOut(Order order)
+        {
+            
+            
+            var cartnumber=carthelper.GetCartNumber();
+           
+            order.PlacedOn = DateTime.Now;
+            order.IsShipped = false;
+            if(order.ShippingAddress.Contains("USA"))
+            {
+                order.ShippingCharges = 15;
+            }
+            else
+            {
+                order.ShippingCharges = 100;
+            }
+           
+            db.Orders.Add(order);
+            db.SaveChanges();
+            var orderid = order.Id;
+            var myCartItems = db.CartItem.Where(u => u.CartId == cartnumber).ToList();
+           
+            foreach (var cartitem in myCartItems)
+            {
+                var orderitem = new OrderItem();
+                orderitem.itemId = cartitem.itemId;
+                orderitem.ItemPrice = cartitem.CartItemAmount;
+                orderitem.OrderId = orderid;
+                orderitem.QtyToOrder = cartitem.QtyToOrder;
+                orderitem.DateCreated = DateTime.Now;
+                db.OrderItems.Add(orderitem);
+                order.Total = order.Total + cartitem.CartItemAmount;
+                
+                db.SaveChanges();
+            }
+            order.GrandTotal = order.Total + order.ShippingCharges;
+            db.SaveChanges();
+
+
+
+
+            return RedirectToAction("Confirm","Orders",new { id=order.Id});
+            
+
+            
         }
 
         // GET: Orders/Edit/5
