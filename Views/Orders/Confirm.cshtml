@@ -85,7 +85,37 @@
     </dl>
 </div>
 
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    
-</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.Display("Title")
+        </th>
+        <th>
+            @Html.Display("Price")
+        </th>
+        <th>
+            @Html.Display("Qty")
+        </th>
+        
+        
+    </tr>
+
+    @foreach (var item in Model.OrderItems)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QtyToOrder)
+            </td>
+           
+            
+        </tr>
+    }
+
+</table>
+<p>@Html.ActionLink("Finalise and Pay","Pay","Orders",new { id = Model.Id },null)</p>

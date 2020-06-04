@@ -60,11 +60,23 @@ namespace MusicWebsite.Controllers
             return View(order);
         }
 
-        public ActionResult Confirm(int id)
+        //public ActionResult Confirm(int id)
+        //{
+        //    var order = db.Orders.Find(id);
+        //    return View(order);
+        //}
+
+        public ActionResult Pay(int id)
         {
             var order = db.Orders.Find(id);
-            return View(order);
+            
+            order.IsPaid = true;
+          
+            carthelper.EmptyCart();
+            
+            return View(order); 
         }
+
         public ActionResult CheckOut()
         {
             
@@ -80,6 +92,7 @@ namespace MusicWebsite.Controllers
            
             order.PlacedOn = DateTime.Now;
             order.IsShipped = false;
+            order.IsPaid = true;
             if(order.ShippingAddress.Contains("USA"))
             {
                 order.ShippingCharges = 15;
@@ -104,8 +117,9 @@ namespace MusicWebsite.Controllers
                 orderitem.DateCreated = DateTime.Now;
                 db.OrderItems.Add(orderitem);
                 order.Total = order.Total + cartitem.CartItemAmount;
-                
-                db.SaveChanges();
+                var item = db.Items.Find(cartitem.itemId);
+                item.Qty = item.Qty - cartitem.QtyToOrder;
+               
             }
             order.GrandTotal = order.Total + order.ShippingCharges;
             db.SaveChanges();
@@ -113,7 +127,7 @@ namespace MusicWebsite.Controllers
 
 
 
-            return RedirectToAction("Confirm","Orders",new { id=order.Id});
+            return RedirectToAction("Pay","Orders",new { id=order.Id});
             
 
             

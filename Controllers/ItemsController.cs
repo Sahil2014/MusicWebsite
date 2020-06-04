@@ -21,8 +21,32 @@ namespace MusicWebsite.Controllers
         public ActionResult Index()
         {
             var items = db.Items.Include(i => i.category);
+            var categories = db.Categories;
+            ViewBag.categories = new MultiSelectList(categories, "Id", "Genre");
             return View(items.ToList());
         }
+
+       
+        public ActionResult FilteredIndex(List<int> categories)
+        {
+            var items = new List <Item>();
+            
+            if (categories!=null)
+            {
+                foreach(var category in categories)
+
+                {
+                    var catitem = db.Items.Where(p => p.CategoryId == category).ToList();
+                    items.AddRange(catitem);
+                }
+                return View(items.ToList());
+            }
+
+
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+       
 
         // GET: Items/Details/5
         public ActionResult Details(int? id)

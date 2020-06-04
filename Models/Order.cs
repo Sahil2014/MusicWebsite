@@ -25,6 +25,7 @@ namespace MusicWebsite.Models
         public DateTime PlacedOn { get; set; }
 
         public bool IsShipped { get; set; }
+        public bool IsPaid { get; set; }
         public decimal Total { get; set; }
         public decimal ShippingCharges { get; set; }
         public decimal GrandTotal { get; set; }
