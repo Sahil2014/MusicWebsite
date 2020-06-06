@@ -10,7 +10,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.category.Genre)
@@ -90,7 +90,7 @@
         </tr>
     }
 
-</table>
+</table>*@
 @using (Html.BeginForm("FilteredIndex","Items"))
 {
     @Html.AntiForgeryToken();
@@ -119,8 +119,21 @@
     <hr />
    
     <div class="row">
-        <div class="col-md-8" style="padding-left:40px">
-            <button type="submit" class="btn btn-success" style="width:100%">CLICK me.</button>
+        <div class="col-md-3" style="padding-left:40px">
+            <button type="submit" class="btn btn-success" style="width:100%">Filter.</button>
         </div>
+    </div>
+    <br />
+    <br />
+}
+@foreach(var item in Model)
+{
+    <div class="col-md-4">
+      <a href="@Url.Action("DEtails","Items",new { id = item.Id })">
+          <div class="img-responsive"><img src="@item.CoverPic" alt="..." class="img-responsive" /></div> 
+          <br />
+          <p>@item.Title</p>
+      </a>
+        
     </div>
 }

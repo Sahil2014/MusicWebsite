@@ -4,7 +4,7 @@
     ViewBag.Title = "Pay";
 }
 
-<h2>Order Confirmation</h2>
+<h1>Order Confirmation</h1>
 
-<h6>Your order has been successfully placed on @Model.PlacedOn and your Order Number is @Model.Id, You paid @Model.GrandTotal for @Model.OrderItems.Count number of items.</h6>
+<h3>Your order has been successfully placed on @Model.PlacedOn <br /> Your Order Number is @Model.Id<br /> You paid $ @Model.GrandTotal (includes $@Model.Total for items and $@Model.ShippingCharges for Shipping) <br /> You ordered @Model.OrderItems.Count number of items.</h3>
 <p>@Html.ActionLink("Go to Home","Index","Home")</p>
