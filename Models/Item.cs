@@ -19,6 +19,7 @@ namespace MusicWebsite.Models
         public int? FileSize { get; set; }
 
         public string FilePath { get; set; }
+        public TimeSpan Duration { get; set; }
 
         public string CoverPic { get; set; }
         [Required, Range(0,1000, ErrorMessage = "Price must be between 0 and 1000")]

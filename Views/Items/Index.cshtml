@@ -11,87 +11,87 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 @*<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.category.Genre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.AddedOn)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FileSize)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FilePath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CoverPic)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Qty)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.category.Genre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.category.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.AddedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FileSize)
-            </td>
-            <td>
-
-
-                <audio controls controlsList="nodownload">
-                    <source src=@item.FilePath type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-
-            </td>
-            <td>
-                <img src="@item.CoverPic" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Qty)
-            </td>
-            @if (User.IsInRole("Admin"))
-            {
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            }
-            <td>
-                @Html.ActionLink("Buy", "Buy", "Carts", new { ItemId = item.Id }, null)
-
-            </td>
-
+            <th>
+                @Html.DisplayNameFor(model => model.AddedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FilePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoverPic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qty)
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>*@
-@using (Html.BeginForm("FilteredIndex","Items"))
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.category.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileSize)
+                </td>
+                <td>
+
+
+                    <audio controls controlsList="nodownload">
+                        <source src=@item.FilePath type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+
+                </td>
+                <td>
+                    <img src="@item.CoverPic" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qty)
+                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                }
+                <td>
+                    @Html.ActionLink("Buy", "Buy", "Carts", new { ItemId = item.Id }, null)
+
+                </td>
+
+            </tr>
+        }
+
+    </table>*@
+@using (Html.BeginForm("FilteredIndex", "Items"))
 {
     @Html.AntiForgeryToken();
     @*<div class="row">
@@ -114,10 +114,10 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
     <hr />
-   
+
     <div class="row">
         <div class="col-md-3" style="padding-left:40px">
             <button type="submit" class="btn btn-success" style="width:100%">Filter.</button>
@@ -126,14 +126,57 @@
     <br />
     <br />
 }
-@foreach(var item in Model)
+@using (Html.BeginForm("SortedIndex", "Items"))
+{
+    @Html.AntiForgeryToken();
+    @*<div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.Label("Select User(s)", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-10">
+                        @Html.ListBox("AllUsers", null, htmlAttributes: new { @class = "form-control tallBox" })
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                @Html.Label("Sort By", htmlAttributes: new { @class = "control-label col-md-12 h4" })
+                <div class="col-md-10">
+                    @Html.DropDownList("sortby", new List<SelectListItem>
+{
+   new SelectListItem{ Text="Default Sorting", Value = "1" },
+   new SelectListItem{ Text="Alphabetical", Value = "2" },
+   new SelectListItem{ Text="Price Lowest to Highest", Value = "3" },
+   
+   new SelectListItem{ Text="By Creation Date", Value = "4" },
+   
+})
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-3" style="padding-left:40px">
+            <button type="submit" class="btn btn-success" style="width:100%">Filter.</button>
+        </div>
+    </div>
+    <br />
+    <br />
+}
+@foreach (var item in Model)
 {
     <div class="col-md-4">
-      <a href="@Url.Action("DEtails","Items",new { id = item.Id })">
-          <div class="img-responsive"><img src="@item.CoverPic" alt="..." class="img-responsive" /></div> 
-          <br />
-          <p>@item.Title</p>
-      </a>
-        
+        <a href="@Url.Action("DEtails","Items",new { id = item.Id })">
+            <div class="img-responsive"><img src="@item.CoverPic" alt="..." class="img-responsive" /></div>
+            <br />
+            <p>@item.Title</p>
+        </a>
+
     </div>
 }

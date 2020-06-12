@@ -1,0 +1,22 @@
+﻿@model IEnumerable<MusicWebsite.Models.Item>
+
+@{
+    ViewBag.Title = "SortedIndex";
+}
+
+<h2>SortedIndex</h2>
+
+
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <a href="@Url.Action("DEtails","Items",new { id = item.Id })">
+                <div class="img-responsive"><img src="@item.CoverPic" alt="..." class="img-responsive" /></div>
+                <br />
+                <p>@item.Title</p>
+            </a>
+
+        </div>
+    }
+
+

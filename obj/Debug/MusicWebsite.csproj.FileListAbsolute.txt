@@ -105,3 +105,14 @@ C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\obj\Debug\MusicWebsite.csp
 C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\obj\Debug\MusicWebsite.csproj.CopyComplete
 C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\obj\Debug\MusicWebsite.dll
 C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\obj\Debug\MusicWebsite.pdb
+C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\bin\Microsoft.WindowsAPICodePack.dll
+C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\bin\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\bin\Microsoft.WindowsAPICodePack.ShellExtensions.dll
+C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\bin\Microsoft.WindowsAPICodePack.pdb
+C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\bin\Microsoft.WindowsAPICodePack.xml
+C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\bin\Microsoft.WindowsAPICodePack.Shell.pdb
+C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\bin\Microsoft.WindowsAPICodePack.Shell.xml
+C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\bin\Microsoft.WindowsAPICodePack.ShellExtensions.pdb
+C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\bin\Microsoft.WindowsAPICodePack.ShellExtensions.xml
+C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\bin\NAudio.dll
+C:\Users\13363\source\repos\MusicWebsite\MusicWebsite\bin\NAudio.xml

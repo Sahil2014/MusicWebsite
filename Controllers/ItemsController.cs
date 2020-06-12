@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using MusicWebsite.Helpers;
 using MusicWebsite.Models;
 
 
@@ -16,6 +17,7 @@ namespace MusicWebsite.Controllers
     public class ItemsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private AudioHelper audioHelper = new AudioHelper();
 
         // GET: Items
         public ActionResult Index()
@@ -23,6 +25,7 @@ namespace MusicWebsite.Controllers
             var items = db.Items.Include(i => i.category);
             var categories = db.Categories;
             ViewBag.categories = new MultiSelectList(categories, "Id", "Genre");
+           
             return View(items.ToList());
         }
 
@@ -46,7 +49,31 @@ namespace MusicWebsite.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
-       
+        public ActionResult SortedIndex(int sortby)
+        {
+            var items = db.Items.Include(i => i.category);
+            if(sortby==2)
+            {
+                items= items.OrderBy(u => u.Title);
+
+            }
+            if (sortby == 3)
+            {
+                items = items.OrderBy(u => u.Price);
+
+            }
+            if (sortby == 4)
+            {
+                items = items.OrderBy(u => u.AddedOn);
+
+            }
+            
+
+            return View(items.ToList());
+            
+        }
+
+
 
         // GET: Items/Details/5
         public ActionResult Details(int? id)
@@ -115,6 +142,7 @@ namespace MusicWebsite.Controllers
                     item.FilePath = "/Audio/" + fileName;
                     item.FileSize = audio.ContentLength;
                     item.AddedOn = DateTime.Now;
+                    //item.Duration = audioHelper.GetAudioDuration(Path.GetFullPath(item.FilePath));
                 }
                 else
                 {
@@ -124,12 +152,19 @@ namespace MusicWebsite.Controllers
                 db.Items.Add(item);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+                //return RedirectToAction("GetDuration",new {id=item.Id});
             }
 
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Genre", item.CategoryId);
             return View(item);
         }
-
+        //public ActionResult GetDuration(int? id)
+        //{
+        //    var item = db.Items.Find(id);
+        //    item.Duration = audioHelper.GetAudioDuration(Path.GetFullPath(item.FilePath));
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
         // GET: Items/Edit/5
         public ActionResult Edit(int? id)
         {
