@@ -90,9 +90,10 @@ namespace MusicWebsite.Controllers
             return View(item);
         }
 
-       
+
 
         // GET: Items/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Genre");
@@ -109,6 +110,7 @@ namespace MusicWebsite.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Item item, HttpPostedFileBase image, HttpPostedFileBase audio)
         {
             if (ModelState.IsValid)
@@ -166,6 +168,7 @@ namespace MusicWebsite.Controllers
         //    return RedirectToAction("Index");
         //}
         // GET: Items/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -186,6 +189,7 @@ namespace MusicWebsite.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,Title,OrderId,CategoryId,AddedOn,FileSize,FilePath,CoverPic,Price,Qty")] Item item)
         {
             if (ModelState.IsValid)
@@ -216,6 +220,7 @@ namespace MusicWebsite.Controllers
         // POST: Items/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Item item = db.Items.Find(id);

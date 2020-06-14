@@ -12,6 +12,11 @@ namespace MusicWebsite.Controllers
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
+        public ActionResult AdminControls()
+        {
+            return View();
+        }
 
         public ActionResult About()
         {

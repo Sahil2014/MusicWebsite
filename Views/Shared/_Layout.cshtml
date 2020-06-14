@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using MusicWebsite.Models
+@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -9,6 +12,14 @@
 
 </head>
 <body>
+    @{
+        var db = new ApplicationDbContext();
+        var userId = User.Identity.GetUserId();
+        ApplicationUser user = new ApplicationUser();
+        user = db.Users.Find(userId);
+
+
+    }
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -21,12 +32,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
-                    <li>@Html.ActionLink("Shop Items", "Index", "Items")</li>
-                    <li>@Html.ActionLink("My Cart", "MyCart", "CartItems")</li>
-                </ul>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Admin Controls", "AdminControls", "Home")</li>
+                    }
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                        <li>@Html.ActionLink("Shop Items", "Index", "Items")</li>
+                        <li>@Html.ActionLink("My Cart", "MyCart", "CartItems")</li>
+                    </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
@@ -35,7 +49,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Music Website</p>
         </footer>
     </div>
 
